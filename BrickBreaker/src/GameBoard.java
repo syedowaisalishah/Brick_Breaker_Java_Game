@@ -20,6 +20,12 @@ public class GameBoard extends JPanel {
     private boolean itemDrop;
     public int racketType = 0;
     private boolean inGame = true;
+    //levels work
+    public static final int EASY = 5;
+    public static final int MEDIUM = 10;
+    public static final int HARD = 15;
+    //private BrickBreaker mainApp;
+    private int ballSpeed = HARD;
     int score = 0;
     double speed = 1;
     String speedLevel = "x1";
@@ -53,6 +59,8 @@ public class GameBoard extends JPanel {
         ResumeHandler resumeHandler = new ResumeHandler();
         RestartHandler restartHandler = new RestartHandler();
         ReturnHandler returnHandler = new ReturnHandler(); // Create a handler for the Return button
+        setFocusable(true);
+        setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
 
         // ArrowKeyHandler arrowKeyHandler = new ArrowKeyHandler();
         // ASWDKeyHandler aswdKeyHandler = new ASWDKeyHandler();
@@ -112,6 +120,11 @@ public class GameBoard extends JPanel {
         setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
         gameInit();
 
+    }
+    //ball speed
+    public void setBallSpeed(int ballSpeed) {
+        this.ballSpeed = ballSpeed;
+        // Update ball speed in the game logic
     }
 
     private void gameInit() throws IOException {

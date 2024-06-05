@@ -144,9 +144,6 @@ public class Brick extends Sprite {
         if (index == 0) {
             var ii = new ImageIcon(ImageIO.read(Brick.class.getResource("/images/brick.png")));
             image = ii.getImage();
-        } else if (index == 1) {
-            var ii = new ImageIcon(ImageIO.read(Brick.class.getResource("/images/itemBrick.png")));
-            image = ii.getImage();
         } else {
             System.out.println("Bad index passed to Brick loadImage");
         }
