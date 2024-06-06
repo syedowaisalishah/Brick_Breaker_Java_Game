@@ -46,21 +46,6 @@ public class Ball extends Sprite {
             ydir *= -1;
             y = ydir;
         }
-//        if (x == 0) {
-//
-//            setXDir(1);
-//        }
-//
-//        if (x == Configurations.WIDTH - imageWidth) {
-//
-//            System.out.println(imageWidth);
-//            setXDir(-1);
-//        }
-//
-//        if (y == 0) {
-//
-//            setYDir(1);
-//        }
     }
 
     private void resetState() {

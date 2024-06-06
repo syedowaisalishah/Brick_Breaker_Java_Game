@@ -23,13 +23,9 @@ public class Racket extends Sprite  {
     private void loadImage(int racket) throws IOException {
 
         ImageIcon ii;
-        if (racket == 1) {
-            ii = new ImageIcon(ImageIO.read(Racket.class.getResource("/images/longPaddle.png")));
-        } else if(racket == 2) {
-            ii = new ImageIcon(ImageIO.read(Racket.class.getResource("/images/shortPaddle.png")));
-        } else {
-            ii = new ImageIcon(ImageIO.read(Racket.class.getResource("/images/paddle.png")));
-        }
+      
+        ii = new ImageIcon(ImageIO.read(Racket.class.getResource("/images/paddle.png")));
+
         image = ii.getImage();
     }
 

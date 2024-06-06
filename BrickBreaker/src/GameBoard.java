@@ -16,15 +16,13 @@ public class GameBoard extends JPanel {
     private Ball ball;
     public Racket racket;
     public Brick[] bricks;
-    private item drop;
-    private boolean itemDrop;
     public int racketType = 0;
     private boolean inGame = true;
     //levels work
     public static final int EASY = 5;
     public static final int MEDIUM = 10;
     public static final int HARD = 15;
-    //private BrickBreaker mainApp;
+    //private BrickBreaker mainApp;zz
     private int ballSpeed = HARD;
     int score = 0;
     double speed = 1;
@@ -62,9 +60,7 @@ public class GameBoard extends JPanel {
         setFocusable(true);
         setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
 
-        // ArrowKeyHandler arrowKeyHandler = new ArrowKeyHandler();
-        // ASWDKeyHandler aswdKeyHandler = new ASWDKeyHandler();
-
+      
         //Read from BackGroundColor.txt to get background color
         FileReader fr = new FileReader("BackGroundColor.txt");
         BufferedReader br = new BufferedReader(fr);
@@ -104,16 +100,10 @@ public class GameBoard extends JPanel {
         resumeButton.addActionListener(resumeHandler);
         restartButton.addActionListener(restartHandler);
         returnButton.addActionListener(returnHandler); // Add action listener for the Return button
-
-        // arrowButton.addActionListener(arrowKeyHandler);
-        // aswdButton.addActionListener(aswdKeyHandler);
-
         pauseButton.setFocusable(false);
         restartButton.setFocusable(false);
         resumeButton.setFocusable(false);
         returnButton.setFocusable(false); // Set the Return button as not focusable
-        // arrowButton.setFocusable(false);
-        // aswdButton.setFocusable(false);
 
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -198,7 +188,6 @@ public class GameBoard extends JPanel {
             racketType = 0;
             speed = 1;
             speedLevel = "x1";
-            itemDrop = false;
             restartClicked = false;
             racket = new Racket(racketType);
         }
@@ -208,12 +197,6 @@ public class GameBoard extends JPanel {
                 ball.getImageWidth(), ball.getImageHeight(), this);
         g2d.drawImage(racket.getImage(), (int)racket.getX(), (int)racket.getY(),
                 racket.getImageWidth(), racket.getImageHeight(), this);
-
-        if(itemDrop) {
-            g2d.drawImage(drop.getImage(), (int)drop.getX(), (int)drop.getY(),
-                    drop.getImageWidth(), drop.getImageHeight(), this);
-        }
-
         for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
 
             if (!bricks[i].isDestroyed()) {
@@ -280,12 +263,6 @@ public class GameBoard extends JPanel {
 
         ball.move();
         racket.move();
-        if(itemDrop) {
-            drop.move();
-            if (drop.y > Configurations.INIT_PADDLE_Y) {
-                itemDrop = false;
-            }
-        }
         checkCollision();
         repaint();
     }
@@ -293,7 +270,6 @@ public class GameBoard extends JPanel {
     private void stopGame() throws IOException {
 
         livesLeft--;
-        itemDrop = false;
         racketType = 0;
         if(livesLeft == 0) {
             inGame = false;
@@ -364,39 +340,6 @@ public class GameBoard extends JPanel {
         }
     }
 
-    // private class ArrowKeyHandler implements ActionListener{
-
-    //     @Override
-    //     public void actionPerformed(ActionEvent e) {
-    //         selectArrowKey();
-    //         --keySelect;
-    //     }
-    // }
-    // private void selectArrowKey(){
-    //     Container key = arrowButton.getParent();
-    //     key.add(aswdButton,3);
-    //     key.remove(arrowButton);
-    //     key.revalidate();
-    //     key.repaint();
-    // }
-
-    // private class ASWDKeyHandler implements ActionListener{
-
-    //     @Override
-    //     public void actionPerformed(ActionEvent e) {
-    //         selectASWDKey();
-    //         ++keySelect;
-    //     }
-    // }
-
-    // private void selectASWDKey(){
-    //     Container key = aswdButton.getParent();
-    //     key.add(arrowButton, 0, 3);
-    //     key.remove(aswdButton);
-    //     key.getComponentAt(250,30);
-    //     key.revalidate();
-    //     key.repaint();
-    // }
 
     private class ReturnHandler implements ActionListener {
 
@@ -489,33 +432,6 @@ public class GameBoard extends JPanel {
                 ball.setYDir(-speed);
             }
         }
-
-        //check if the user caught a dropped item
-        if (itemDrop && (drop.getRect()).intersects(racket.getRect())) {
-            int random = (int) (Math.random() * 100) + 1;
-
-            //case 1: lengthen paddle
-            if(random < 50) {
-                racketType = 1;
-            }
-            else if(random > 50 && random < 80){
-                livesLeft++;
-            }
-            //case 2: shorten paddle
-            else {
-                racketType = 2;
-            }
-
-            //have new racket appear under ball
-            double temp = ball.x;
-            racket = new Racket(racketType);
-            racket.x = temp;
-
-            //reset itemDrop condition
-            itemDrop = false;
-
-        }
-
         for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
 
             if ((ball.getRect()).intersects(bricks[i].getRect())) {
@@ -546,13 +462,6 @@ public class GameBoard extends JPanel {
 
                         ball.setYDir(-speed);
                     }
-
-                    //if it should drop an item
-                    if(bricks[i].hasItem()) {
-                        itemDrop = true;
-                        drop = new item(bricks[i].x, bricks[i].y);
-                    }
-
                     bricks[i].doDamage();
                 }
             }
