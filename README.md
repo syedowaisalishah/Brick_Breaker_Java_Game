@@ -32,6 +32,16 @@ Brick Breaker is a classic arcade game implemented in Java. Players control a pa
 - Break all the bricks to advance to the next level.
 - Don't let the ball fall below the paddle.
 
+### Home Screen
+![Home Screen](screenshots/screenshot1.PNG)
+
+### Select Level
+![Client Login Page](screenshots/screenshot2.PNG)
+
+### Game Board
+![Requirement Page](screenshots/screenshot3.PNG)
+
+
 ## Contributing
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
