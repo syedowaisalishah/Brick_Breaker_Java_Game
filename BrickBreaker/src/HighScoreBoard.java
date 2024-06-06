@@ -1,13 +1,10 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import javax.swing.*;
 
 public class HighScoreBoard extends JPanel {
     private BrickBreaker mainApp; // Reference to the main application
@@ -26,11 +23,11 @@ public class HighScoreBoard extends JPanel {
         rtnMenuButton.setBounds(10, 10, 75, 20);
         add(rtnMenuButton);
 
-        returnHandler rtnHandler = new returnHandler();
+        ReturnHandler rtnHandler = new ReturnHandler();
         rtnMenuButton.addActionListener(rtnHandler);
     }
 
-    private class returnHandler implements ActionListener {
+    private class ReturnHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             mainApp.showMenuScreen();
@@ -73,10 +70,8 @@ public class HighScoreBoard extends JPanel {
             g2d.setFont(font3);
             g2d.drawString("No Scores yet!", 40, y);
         } else {
-            int nScores = 0;
             while (line != null) {
                 scores.add(Integer.parseInt(line));
-                nScores++;
                 line = br.readLine();
             }
 

@@ -22,8 +22,8 @@ public class GameBoard extends JPanel {
     public static final int EASY = 5;
     public static final int MEDIUM = 10;
     public static final int HARD = 15;
-    //private BrickBreaker mainApp;zz
-    private int ballSpeed = HARD;
+    //private BrickBreaker mainApp;
+    private int ballSpeed = MEDIUM; // Set default to MEDIUM
     int score = 0;
     double speed = 1;
     String speedLevel = "x1";
@@ -37,18 +37,14 @@ public class GameBoard extends JPanel {
         this.mainApp = mainApp;
         initBoard();
     }
-    
+
     boolean restartClicked = false;
-    // JButton arrowButton = new JButton("Arrow");
-    // JButton aswdButton = new JButton("ASWD");
     int keySelect = 0;
 
     public int livesLeft;
 
     public GameBoard() throws IOException {
-
         initBoard();
-
     }
 
     private void initBoard() throws IOException {
@@ -60,17 +56,16 @@ public class GameBoard extends JPanel {
         setFocusable(true);
         setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
 
-      
-        //Read from BackGroundColor.txt to get background color
+        // Read from BackGroundColor.txt to get background color
         FileReader fr = new FileReader("BackGroundColor.txt");
         BufferedReader br = new BufferedReader(fr);
         String color = br.readLine();
 
         // Read Color object String and convert to Color object
         final Scanner scan = new Scanner(color);
-        scan.useDelimiter("(r|\\,g|\\,b)=|\\]").next(); //Use proper delimiter and ignore first part (which is the class name)
+        scan.useDelimiter("(r|\\,g|\\,b)=|\\]").next(); // Use proper delimiter and ignore first part (which is the class name)
         final int r, g, b;
-        //Verify RGB Values
+        // Verify RGB Values
         System.out.println(r = scan.nextInt());
         System.out.println(g = scan.nextInt());
         System.out.println(b = scan.nextInt());
@@ -82,7 +77,6 @@ public class GameBoard extends JPanel {
         fr.close();
         br.close();
 
-
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new GridLayout(0, 4)); // Adjust the grid layout to accommodate four buttons
         buttonPane.setPreferredSize(new Dimension(330, 30)); // Adjust size if necessary
@@ -91,8 +85,6 @@ public class GameBoard extends JPanel {
         buttonPane.add(pauseButton);
         buttonPane.add(restartButton);
         buttonPane.add(returnButton); // Add the Return button
-        // buttonPane.add(aswdButton);
-
 
         add(buttonPane);
 
@@ -109,16 +101,28 @@ public class GameBoard extends JPanel {
         setFocusable(true);
         setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
         gameInit();
-
     }
-    //ball speed
-    public void setBallSpeed(int ballSpeed) {
+
+    // Method to set the ball speed based on the selected difficulty
+    public void setBallSpeed(int ballSpeed) {      // speed of levell
         this.ballSpeed = ballSpeed;
-        // Update ball speed in the game logic
+        switch (ballSpeed) {
+            case EASY:
+                speed = 1;
+                speedLevel = "x1";
+                break;
+            case MEDIUM:
+                speed = 1.5;
+                speedLevel = "x1.5";
+                break;
+            case HARD:
+                speed = 2;
+                speedLevel = "x2";
+                break;
+        }
     }
 
     private void gameInit() throws IOException {
-
         bricks = new Brick[Configurations.N_OF_BRICKS];
 
         ball = new Ball();
@@ -129,9 +133,7 @@ public class GameBoard extends JPanel {
         livesLeft = 3;
 
         for (int i = 0; i < 5; i++) {
-
             for (int j = 0; j < 6; j++) {
-
                 bricks[k] = new Brick(j * 40 + 30, i * 10 + 50);
                 k++;
             }
@@ -156,14 +158,12 @@ public class GameBoard extends JPanel {
                 RenderingHints.VALUE_RENDER_QUALITY);
 
         if (inGame) {
-
             try {
                 drawObjects(g2d);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-
             try {
                 gameFinished(g2d);
             } catch (IOException e) {
@@ -184,7 +184,7 @@ public class GameBoard extends JPanel {
         g2d.drawString("Score: " + score, 120, 390);
         g2d.drawString("Lives: " + livesLeft, 230, 390);
 
-        if(restartClicked){
+        if (restartClicked) {
             racketType = 0;
             speed = 1;
             speedLevel = "x1";
@@ -193,23 +193,20 @@ public class GameBoard extends JPanel {
         }
 
         g2d.drawString("Speed: " + speedLevel, 10, 390);
-        g2d.drawImage(ball.getImage(), (int)ball.getX(), (int)ball.getY(),
+        g2d.drawImage(ball.getImage(), (int) ball.getX(), (int) ball.getY(),
                 ball.getImageWidth(), ball.getImageHeight(), this);
-        g2d.drawImage(racket.getImage(), (int)racket.getX(), (int)racket.getY(),
+        g2d.drawImage(racket.getImage(), (int) racket.getX(), (int) racket.getY(),
                 racket.getImageWidth(), racket.getImageHeight(), this);
         for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
-
             if (!bricks[i].isDestroyed()) {
-
-                g2d.drawImage(bricks[i].getImage(), (int)bricks[i].getX(),
-                        (int)bricks[i].getY(), bricks[i].getImageWidth(),
+                g2d.drawImage(bricks[i].getImage(), (int) bricks[i].getX(),
+                        (int) bricks[i].getY(), bricks[i].getImageWidth(),
                         bricks[i].getImageHeight(), this);
             }
         }
     }
 
     private void gameFinished(Graphics2D g2d) throws IOException {
-
         var font = new Font("Verdana", Font.BOLD, 18);
         FontMetrics fontMetrics = this.getFontMetrics(font);
 
@@ -235,14 +232,12 @@ public class GameBoard extends JPanel {
 
         @Override
         public void keyReleased(KeyEvent e) {
-
-            racket.keyReleased(e,keySelect);
+            racket.keyReleased(e, keySelect);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-
-            racket.keyPressed(e,keySelect);
+            racket.keyPressed(e, keySelect);
         }
     }
 
@@ -250,7 +245,6 @@ public class GameBoard extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             try {
                 doGameCycle();
             } catch (IOException ioException) {
@@ -260,7 +254,6 @@ public class GameBoard extends JPanel {
     }
 
     private void doGameCycle() throws IOException {
-
         ball.move();
         racket.move();
         checkCollision();
@@ -268,10 +261,9 @@ public class GameBoard extends JPanel {
     }
 
     private void stopGame() throws IOException {
-
         livesLeft--;
         racketType = 0;
-        if(livesLeft == 0) {
+        if (livesLeft == 0) {
             inGame = false;
             timer.stop();
         }
@@ -282,7 +274,6 @@ public class GameBoard extends JPanel {
         timer.stop();
         timer = new Timer(Configurations.PERIOD, new GameCycle());
         timer.start();
-
     }
 
     // pause game once click on pause button
@@ -340,7 +331,6 @@ public class GameBoard extends JPanel {
         }
     }
 
-
     private class ReturnHandler implements ActionListener {
 
         @Override
@@ -351,49 +341,43 @@ public class GameBoard extends JPanel {
             cardLayout.show(parent, "MenuScreen");
         }
     }
-    
 
     public void checkCollision() throws IOException {
-
         if (ball.getRect().getMaxY() > Configurations.BOTTOM_EDGE) {
-
             stopGame();
         }
 
         // game over when the ball hit the top edge
-        if(ball.getRect().getMaxY() < Configurations.TOP_EDGE){stopGame();}
+        if (ball.getRect().getMaxY() < Configurations.TOP_EDGE) {
+            stopGame();
+        }
 
         // Speeds up the ball every time
         // 5 bricks are destroyed until the 15th destroyed brick
-        if(score >= 5 && score < 10){
-            speed = 1.2;
-            speedLevel = "x1.2";
-        }
-        else if(score >= 10 && score < 15){
-            speed = 1.5;
-            speedLevel = "x1.5";
-        }
-        else if(score >= 15){
-            speed = 2;
-            speedLevel = "x2";
-        }
+        // if (score >= 5 && score < 10) {
+        //     speed = ballSpeed * 1.2 / 10; // Modify speed based on selected difficulty
+        //     speedLevel = "x1.2";
+        // } else if (score >= 10 && score < 15) {
+        //     speed = ballSpeed * 1.5 / 10; // Modify speed based on selected difficulty
+        //     speedLevel = "x1.5";
+        // } else if (score >= 15) {
+        //     speed = ballSpeed * 2 / 10; // Modify speed based on selected difficulty
+        //     speedLevel = "x2";
+        // }
 
         for (int i = 0, j = 0; i < Configurations.N_OF_BRICKS; i++) {
-
             if (bricks[i].isDestroyed()) {
                 j++;
             }
-            //added score keeper
+            // added score keeper
             score = j;
             if (j == Configurations.N_OF_BRICKS) {
-
                 message = "Victory";
                 stopGame();
             }
         }
 
         if ((ball.getRect()).intersects(racket.getRect())) {
-
             int paddleLPos = (int) racket.getRect().getMinX();
             int ballLPos = (int) ball.getRect().getMinX();
 
@@ -403,37 +387,31 @@ public class GameBoard extends JPanel {
             int fourth = paddleLPos + 32;
 
             if (ballLPos < first) {
-
                 ball.setXDir(-speed);
                 ball.setYDir(-speed);
             }
 
             if (ballLPos >= first && ballLPos < second) {
-
                 ball.setXDir(-speed);
                 ball.setYDir(-speed * ball.getYDir());
             }
 
             if (ballLPos >= second && ballLPos < third) {
-
                 ball.setXDir(0);
                 ball.setYDir(-speed);
             }
 
             if (ballLPos >= third && ballLPos < fourth) {
-
                 ball.setXDir(speed);
                 ball.setYDir(-speed * ball.getYDir());
             }
 
             if (ballLPos > fourth) {
-
                 ball.setXDir(speed);
                 ball.setYDir(-speed);
             }
         }
         for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
-
             if ((ball.getRect()).intersects(bricks[i].getRect())) {
                 int ballLeft = (int) ball.getRect().getMinX();
                 int ballHeight = (int) ball.getRect().getHeight();
@@ -446,20 +424,15 @@ public class GameBoard extends JPanel {
                 var pointBottom = new Point(ballLeft, ballTop + ballHeight + 1);
 
                 if (!bricks[i].isDestroyed()) {
-
                     if (bricks[i].getRect().contains(pointRight)) {
-
                         ball.setXDir(-speed);
                     } else if (bricks[i].getRect().contains(pointLeft)) {
-
                         ball.setXDir(speed);
                     }
 
                     if (bricks[i].getRect().contains(pointTop)) {
-
                         ball.setYDir(speed);
                     } else if (bricks[i].getRect().contains(pointBottom)) {
-
                         ball.setYDir(-speed);
                     }
                     bricks[i].doDamage();
