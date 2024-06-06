@@ -36,10 +36,10 @@ Brick Breaker is a classic arcade game implemented in Java. Players control a pa
 ![Home Screen](Screenshots/ss1.png)
 
 ### Select Level
-![Client Login Page](Screenshots/ss2.PNG)
+![Client Login Page](Screenshots/ss2.png)
 
 ### Game Board
-![Requirement Page](Screenshots/ss3.PNG)
+![Requirement Page](Screenshots/ss3.png)
 
 
 ## Contributing
