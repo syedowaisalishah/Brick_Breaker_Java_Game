@@ -12,7 +12,7 @@ Brick Breaker is a classic arcade game implemented in Java. Players control a pa
 ## Installation
 1. Clone the repository:
     ```sh
-    git clone https://github.com/wareeshaali2003/Brick_Breaker_Java_Game.git
+    git clone https://github.com/syedowaisalishah/Brick_Breaker_Java_Game.git
     ```
 2. Navigate to the project directory:
     ```sh
@@ -33,13 +33,13 @@ Brick Breaker is a classic arcade game implemented in Java. Players control a pa
 - Don't let the ball fall below the paddle.
 
 ### Home Screen
-![Home Screen](screenshots/screenshot1.PNG)
+![Home Screen](Screenshots/ss1.PNG)
 
 ### Select Level
-![Client Login Page](screenshots/screenshot2.PNG)
+![Client Login Page](Screenshots/ss2.PNG)
 
 ### Game Board
-![Requirement Page](screenshots/screenshot3.PNG)
+![Requirement Page](Screenshots/ss3.PNG)
 
 
 ## Contributing
