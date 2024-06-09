@@ -10,38 +10,55 @@ public class MenuScreen extends JPanel {
     JButton levelButton = new JButton("Select Level"); // Button to select difficulty level
 
     // Constructor that accepts a reference to the main application
-    public MenuScreen(BrickBreaker mainApp) {
-        this.mainApp = mainApp; // Assign the mainApp reference
-        initMenu(); // Initialize the menu screen
+  // Constructor that accepts a reference to the main application
+public MenuScreen(BrickBreaker mainApp) {
+    this.mainApp = mainApp; // Assign the mainApp reference
+    initMenu(); // Initialize the menu screen
+}
+
+// Method to initialize the menu screen
+private void initMenu() {
+    setFocusable(true); // Set the panel to be focusable
+    setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT)); // Set panel dimensions
+    setLayout(null); // Use null layout for manual positioning of components
+
+    // Set bounds for the menu buttons
+    startButton.setBounds((Configurations.WIDTH - 120) / 2, 100, 120, 40);
+    hsButton.setBounds((Configurations.WIDTH - 120) / 2, 150, 120, 40);
+    levelButton.setBounds((Configurations.WIDTH - 120) / 2, 200, 120, 40);
+
+    // Add the menu buttons to the panel
+    add(startButton);
+    add(hsButton);
+    add(levelButton);
+
+    // Add action listener to the start button
+    StartHandler stHandler = new StartHandler();
+    startButton.addActionListener(stHandler);
+
+    // Add action listener to the high scores button
+    HSHandler hsHandler = new HSHandler();
+    hsButton.addActionListener(hsHandler);
+
+    // Add action listener to the level selection button
+    LevelHandler lvlHandler = new LevelHandler();
+    levelButton.addActionListener(lvlHandler);
+}
+
+
+    // Getter for the start button
+    public JButton getStartButton() {
+        return startButton;
     }
 
-    // Method to initialize the menu screen
-    private void initMenu() {
-        setFocusable(true); // Set the panel to be focusable
-        setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT)); // Set panel dimensions
-        setLayout(null); // Use null layout for manual positioning of components
+    // Getter for the high scores button
+    public JButton getHsButton() {
+        return hsButton;
+    }
 
-        // Set bounds for the menu buttons
-        startButton.setBounds((Configurations.WIDTH - 120) / 2, 100, 120, 40);
-        hsButton.setBounds((Configurations.WIDTH - 120) / 2, 150, 120, 40);
-        levelButton.setBounds((Configurations.WIDTH - 120) / 2, 200, 120, 40);
-
-        // Add the menu buttons to the panel
-        add(startButton);
-        add(hsButton);
-        add(levelButton);
-
-        // Add action listener to the start button
-        StartHandler stHandler = new StartHandler();
-        startButton.addActionListener(stHandler);
-
-        // Add action listener to the high scores button
-        HSHandler hsHandler = new HSHandler();
-        hsButton.addActionListener(hsHandler);
-
-        // Add action listener to the level selection button
-        LevelHandler lvlHandler = new LevelHandler();
-        levelButton.addActionListener(lvlHandler);
+    // Getter for the level selection button
+    public JButton getLevelButton() {
+        return levelButton;
     }
 
     // Inner class to handle start button actions
@@ -50,6 +67,8 @@ public class MenuScreen extends JPanel {
         public void actionPerformed(ActionEvent e) {
             mainApp.showGameBoard(); // Show the game board
         }
+
+    
     }
 
     // Inner class to handle high scores button actions
@@ -67,4 +86,15 @@ public class MenuScreen extends JPanel {
             mainApp.showLevelSelectionScreen(); // Show the level selection screen
         }
     }
+
+    // public boolean menuScreenShown = false;
+
+    // public boolean isMenuScreenShown() {
+    //     return menuScreenShown;
+    // }
+
+    // public void setMenuScreenShown(boolean menuScreenShown) {
+    //     this.menuScreenShown = menuScreenShown;
+    // }
+
 }

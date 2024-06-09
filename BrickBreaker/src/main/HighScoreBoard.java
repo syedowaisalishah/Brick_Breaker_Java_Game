@@ -15,6 +15,10 @@ public class HighScoreBoard extends JPanel {
         this.mainApp = mainApp; // Assign the mainApp reference
         initBoard(); // Initialize the game board
     }
+    public JButton getRtnMenuButton() {
+        return rtnMenuButton;
+    }
+    
 
     // Method to initialize the game board
     private void initBoard() {
@@ -95,4 +99,13 @@ public class HighScoreBoard extends JPanel {
             in.close(); // Close file reader
         }
     }
+    // public boolean menuScreenShown = false;
+
+    // public boolean isMenuScreenShown() {
+    //     return menuScreenShown;
+    // }
+
+    // public void setMenuScreenShown(boolean menuScreenShown) {
+    //     this.menuScreenShown = menuScreenShown;
+    // }
 }
