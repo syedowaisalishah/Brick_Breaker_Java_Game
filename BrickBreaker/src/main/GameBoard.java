@@ -1,111 +1,113 @@
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.*;
-import java.util.Objects;
-import java.util.Scanner;
+import javax.imageio.ImageIO; // Import for reading image files
+import javax.swing.*; // Import for Swing components
+import java.awt.*; // Import for AWT components
+import java.awt.event.ActionEvent; // Import for handling action events
+import java.awt.event.ActionListener; // Import for handling action listeners
+import java.awt.event.KeyAdapter; // Import for handling keyboard events
+import java.awt.event.KeyEvent; // Import for KeyEvent
+import java.io.*; // Import for handling IO exceptions
+import java.util.Objects; // Import for utility methods
+import java.util.Scanner; // Import for reading input
 
 public class GameBoard extends JPanel {
 
-    private Timer timer;
-    private String message = "Game Over!";
-    private Ball ball;
-    public Racket racket;
-    public Brick[] bricks;
-    public int racketType = 0;
-    private boolean inGame = true;
-    //levels work
+    private Timer timer; // Timer for game cycle
+    private String message = "Game Over!"; // Message to display when the game ends
+    private Ball ball; // Ball object
+    public Racket racket; // Racket object
+    public Brick[] bricks; // Array to hold bricks
+    public int racketType = 0; // Type of racket
+    private boolean inGame = true; // Flag to indicate if the game is in progress
+    // Levels constants
     public static final int EASY = 5;
     public static final int MEDIUM = 10;
     public static final int HARD = 15;
-    //private BrickBreaker mainApp;
-    private int ballSpeed = MEDIUM; // Set default to MEDIUM
-    int score = 0;
-    double speed = 1;
-    String speedLevel = "x1";
-    JButton pauseButton = new JButton("Pause");
-    JButton resumeButton = new JButton("Resume");
-    JButton restartButton = new JButton("Restart");
-    JButton returnButton = new JButton("Return");
+    private int ballSpeed = MEDIUM; // Speed of the ball (default to MEDIUM)
+    int score = 0; // Score
+    double speed = 1; // Speed multiplier
+    String speedLevel = "x1"; // Speed level indicator
+    JButton pauseButton = new JButton("Pause"); // Button to pause the game
+    JButton resumeButton = new JButton("Resume"); // Button to resume the game
+    JButton restartButton = new JButton("Restart"); // Button to restart the game
+    JButton returnButton = new JButton("Return"); // Button to return to the main menu
     private BrickBreaker mainApp; // Reference to the main application
 
+    // Constructor with mainApp parameter
     public GameBoard(BrickBreaker mainApp) throws IOException {
-        this.mainApp = mainApp;
-        initBoard();
+        this.mainApp = mainApp; // Assign the mainApp reference
+        initBoard(); // Initialize the game board
     }
 
-    boolean restartClicked = false;
-    int keySelect = 0;
+    boolean restartClicked = false; // Flag to indicate if restart button is clicked
+    int keySelect = 0; // Key selection indicator
+    public int livesLeft; // Lives left for the player
 
-    public int livesLeft;
-
+    // Default constructor
     public GameBoard() throws IOException {
-        initBoard();
+        initBoard(); // Initialize the game board
     }
 
+    // Method to initialize the game board
     private void initBoard() throws IOException {
-
+        // Handlers for buttons
         PauseHandler settingHandler = new PauseHandler();
         ResumeHandler resumeHandler = new ResumeHandler();
         RestartHandler restartHandler = new RestartHandler();
-        ReturnHandler returnHandler = new ReturnHandler(); // Create a handler for the Return button
-        setFocusable(true);
-        setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
+        ReturnHandler returnHandler = new ReturnHandler(); // Handler for the return button
+        setFocusable(true); // Set the panel focusable
+        setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT)); // Set panel dimensions
 
-        // Read from BackGroundColor.txt to get background color
+        // Read background color from file
         FileReader fr = new FileReader("BackGroundColor.txt");
         BufferedReader br = new BufferedReader(fr);
         String color = br.readLine();
 
-        // Read Color object String and convert to Color object
+        // Parse color string and set background color
         final Scanner scan = new Scanner(color);
-        scan.useDelimiter("(r|\\,g|\\,b)=|\\]").next(); // Use proper delimiter and ignore first part (which is the class name)
+        scan.useDelimiter("(r|\\,g|\\,b)=|\\]");
+        scan.next(); // Ignore class name
         final int r, g, b;
-        // Verify RGB Values
-        System.out.println(r = scan.nextInt());
-        System.out.println(g = scan.nextInt());
-        System.out.println(b = scan.nextInt());
+        r = scan.nextInt(); // Read red value
+        g = scan.nextInt(); // Read green value
+        b = scan.nextInt(); // Read blue value
+        Color c = new Color(r, g, b); // Create Color object
+        setBackground(c); // Set background color
 
-        Color c = new Color(r, g, b);
-        setBackground(c);
+        fr.close(); // Close file reader
+        br.close(); // Close buffered reader
 
-        System.out.println(color);
-        fr.close();
-        br.close();
-
+        // Create button pane
         JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new GridLayout(0, 4)); // Adjust the grid layout to accommodate four buttons
-        buttonPane.setPreferredSize(new Dimension(330, 30)); // Adjust size if necessary
-        JPanel blank = new JPanel();
-        blank.setVisible(false);
-        buttonPane.add(pauseButton);
-        buttonPane.add(restartButton);
-        buttonPane.add(returnButton); // Add the Return button
+        buttonPane.setLayout(new GridLayout(0, 4)); // Set grid layout for buttons
+        buttonPane.setPreferredSize(new Dimension(330, 30)); // Set preferred size
+        JPanel blank = new JPanel(); // Create blank panel
+        blank.setVisible(false); // Set it invisible
+        buttonPane.add(pauseButton); // Add pause button
+        buttonPane.add(restartButton); // Add restart button
+        buttonPane.add(returnButton); // Add return button
 
-        add(buttonPane);
+        add(buttonPane); // Add button pane to the panel
 
+        // Add action listeners for buttons
         pauseButton.addActionListener(settingHandler);
         resumeButton.addActionListener(resumeHandler);
         restartButton.addActionListener(restartHandler);
-        returnButton.addActionListener(returnHandler); // Add action listener for the Return button
-        pauseButton.setFocusable(false);
+        returnButton.addActionListener(returnHandler); // Add action listener for return button
+        pauseButton.setFocusable(false); // Set buttons not focusable
         restartButton.setFocusable(false);
         resumeButton.setFocusable(false);
-        returnButton.setFocusable(false); // Set the Return button as not focusable
+        returnButton.setFocusable(false);
 
-        addKeyListener(new TAdapter());
-        setFocusable(true);
-        setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT));
-        gameInit();
+        addKeyListener(new TAdapter()); // Add key adapter
+        setFocusable(true); // Set focusable
+        setPreferredSize(new Dimension(Configurations.WIDTH, Configurations.HEIGHT)); // Set preferred size
+        gameInit(); // Initialize the game
     }
 
     // Method to set the ball speed based on the selected difficulty
-    public void setBallSpeed(int ballSpeed) {      // speed of levell
-        this.ballSpeed = ballSpeed;
+    public void setBallSpeed(int ballSpeed) {
+        this.ballSpeed = ballSpeed; // Set ball speed
+        // Set speed multiplier based on selected difficulty
         switch (ballSpeed) {
             case EASY:
                 speed = 1;
@@ -122,16 +124,18 @@ public class GameBoard extends JPanel {
         }
     }
 
+    // Method to initialize the game
     private void gameInit() throws IOException {
-        bricks = new Brick[Configurations.N_OF_BRICKS];
+        bricks = new Brick[Configurations.N_OF_BRICKS]; // Create brick array
 
-        ball = new Ball();
-        racket = new Racket(racketType);
+        ball = new Ball(); // Create ball object
+        racket = new Racket(racketType); // Create racket object
 
         int k = 0;
 
-        livesLeft = 3;
+        livesLeft = 3; // Set initial lives
 
+        // Initialize bricks
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
                 bricks[k] = new Brick(j * 40 + 30, i * 10 + 50);
@@ -139,9 +143,13 @@ public class GameBoard extends JPanel {
             }
         }
 
+        // Start the game timer
         timer = new Timer(Configurations.PERIOD, new GameCycle());
         timer.start();
     }
+
+    // Method to paint components
+
 
     @Override
     public void paintComponent(Graphics g) {
@@ -352,19 +360,6 @@ public class GameBoard extends JPanel {
             stopGame();
         }
 
-        // Speeds up the ball every time
-        // 5 bricks are destroyed until the 15th destroyed brick
-        // if (score >= 5 && score < 10) {
-        //     speed = ballSpeed * 1.2 / 10; // Modify speed based on selected difficulty
-        //     speedLevel = "x1.2";
-        // } else if (score >= 10 && score < 15) {
-        //     speed = ballSpeed * 1.5 / 10; // Modify speed based on selected difficulty
-        //     speedLevel = "x1.5";
-        // } else if (score >= 15) {
-        //     speed = ballSpeed * 2 / 10; // Modify speed based on selected difficulty
-        //     speedLevel = "x2";
-        // }
-
         for (int i = 0, j = 0; i < Configurations.N_OF_BRICKS; i++) {
             if (bricks[i].isDestroyed()) {
                 j++;
@@ -411,6 +406,7 @@ public class GameBoard extends JPanel {
                 ball.setYDir(-speed);
             }
         }
+        //isme sara point ka kaam horaha hai
         for (int i = 0; i < Configurations.N_OF_BRICKS; i++) {
             if ((ball.getRect()).intersects(bricks[i].getRect())) {
                 int ballLeft = (int) ball.getRect().getMinX();
