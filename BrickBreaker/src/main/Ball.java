@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.io.IOException;
 
+// ball class
 public class Ball extends Sprite {
 
     private double xdir;
