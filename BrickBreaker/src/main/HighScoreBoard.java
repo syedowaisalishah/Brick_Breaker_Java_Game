@@ -1,10 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class HighScoreBoard extends JPanel {
     private BrickBreaker mainApp; // Reference to the main application
@@ -60,7 +60,7 @@ public class HighScoreBoard extends JPanel {
                 (Configurations.WIDTH - fontMetrics.stringWidth("Top 5 scores")) / 2,
                 50);
 
-        ArrayList<Integer> scores = new ArrayList<>();
+        TreeSet<Integer> scores = new TreeSet<>(Collections.reverseOrder());
         String line = br.readLine();
         int y = 100;
 
@@ -75,17 +75,16 @@ public class HighScoreBoard extends JPanel {
                 line = br.readLine();
             }
 
-            while (scores.size() < 5) {
-                scores.add(0);
-            }
-            
-            scores.sort(Collections.reverseOrder());
             var font2 = new Font("Verdana", Font.BOLD, 15);
             g2d.setColor(Color.BLACK);
             g2d.setFont(font2);
-            for (int i = 0; i < 5; i++) {
-                g2d.drawString("#" + (i + 1) + ": " + scores.get(i), 40, y);
+
+            int i = 0;
+            for (int score : scores) {
+                if (i >= 5) break;
+                g2d.drawString("#" + (i + 1) + ": " + score, 40, y);
                 y += 30;
+                i++;
             }
             br.close();
             in.close();
