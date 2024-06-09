@@ -7,7 +7,7 @@ Brick Breaker is a classic arcade game implemented in Java. Players control a pa
 - Classic brick-breaking gameplay
 - Scoring system
 - Multiple levels
-- Adjustable game settings
+- Adjustable game settings.
 
 ## Installation
 1. Clone the repository:
