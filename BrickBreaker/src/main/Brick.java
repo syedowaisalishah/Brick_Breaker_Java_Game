@@ -15,7 +15,7 @@ public class Brick extends Sprite {
         this.x = x;
         this.y = y;
         this.destroyed = false;
-        this.containsItem = false;
+        // this.containsItem = false;
 
         loadImage(0);
         getImageDimensions();
@@ -23,7 +23,7 @@ public class Brick extends Sprite {
         // 10% chance the brick contains an item
         int random = (int) (Math.random() * 100) + 1;
         if (random < 10) {
-            containsItem = true;
+            // containsItem = true;
             loadImage(1);
         }
     }
@@ -45,7 +45,7 @@ public class Brick extends Sprite {
         return destroyed;
     }
 
-    boolean hasItem() {
-        return containsItem;
-    }
+    // boolean hasItem() {
+    //     return containsItem;
+    // }
 }

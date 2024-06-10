@@ -87,14 +87,5 @@ private void initMenu() {
         }
     }
 
-    // public boolean menuScreenShown = false;
-
-    // public boolean isMenuScreenShown() {
-    //     return menuScreenShown;
-    // }
-
-    // public void setMenuScreenShown(boolean menuScreenShown) {
-    //     this.menuScreenShown = menuScreenShown;
-    // }
 
 }

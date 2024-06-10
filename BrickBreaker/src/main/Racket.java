@@ -46,53 +46,53 @@ public class Racket extends Sprite  {
 
     void keyPressed(KeyEvent e, int select) {
         int key = e.getKeyCode();
-        if (select == 0){
-            if (key == KeyEvent.VK_LEFT) {
+        // if (select == 0){
+        if (key == KeyEvent.VK_LEFT) {
 
-                dx = -2;
-            }
-
-            if (key == KeyEvent.VK_RIGHT) {
-
-                dx = 2;
-            }
-        }else {
-            if (key == KeyEvent.VK_A) {
-
-                dx = -2;
-            }
-
-            if (key == KeyEvent.VK_D) {
-
-                dx = 2;
-            }
+            dx = -2;
         }
+
+        if (key == KeyEvent.VK_RIGHT) {
+
+            dx = 2;
+        }
+        // }else {
+        //     if (key == KeyEvent.VK_A) {
+
+        //         dx = -2;
+        //     }
+
+        //     if (key == KeyEvent.VK_D) {
+
+        //         dx = 2;
+        //     }
+        // }
     }
 
     void keyReleased(KeyEvent e, int select) {
 
         int key = e.getKeyCode();
-        if(select == 0) {
-            if (key == KeyEvent.VK_LEFT) {
+        // if(select == 0) {
+        if (key == KeyEvent.VK_LEFT) {
 
-                dx = 0;
-            }
-
-            if (key == KeyEvent.VK_RIGHT) {
-
-                dx = 0;
-            }
-        }else{
-            if (key == KeyEvent.VK_A) {
-
-                dx = 0;
-            }
-
-            if (key == KeyEvent.VK_D) {
-
-                dx = 0;
-            }
+            dx = 0;
         }
+
+        if (key == KeyEvent.VK_RIGHT) {
+
+            dx = 0;
+        }
+        // }else{
+        //     if (key == KeyEvent.VK_A) {
+
+        //         dx = 0;
+        //     }
+
+        //     if (key == KeyEvent.VK_D) {
+
+        //         dx = 0;
+        //     }
+        // }
     }
 
     private void resetState() {
