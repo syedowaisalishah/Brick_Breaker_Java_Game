@@ -1,4 +1,4 @@
-import javax.imageio.ImageIO; // Import for reading image files
+// import javax.imageio.ImageIO; // Import for reading image files
 import javax.swing.*; // Import for Swing components
 import java.awt.*; // Import for AWT components
 import java.awt.event.ActionEvent; // Import for handling action events
@@ -6,7 +6,7 @@ import java.awt.event.ActionListener; // Import for handling action listeners
 import java.awt.event.KeyAdapter; // Import for handling keyboard events
 import java.awt.event.KeyEvent; // Import for KeyEvent
 import java.io.*; // Import for handling IO exceptions
-import java.util.Objects; // Import for utility methods
+// import java.util.Objects; // Import for utility methods
 import java.util.Scanner; // Import for reading input
 
 public class GameBoard extends JPanel {

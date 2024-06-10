@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Brick extends Sprite {
     private boolean destroyed;
-    private boolean containsItem;
+    // private boolean containsItem;
 
     public Brick(int x, int y) throws IOException {
         initBrick(x, y);
